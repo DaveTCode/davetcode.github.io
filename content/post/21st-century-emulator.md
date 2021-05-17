@@ -262,3 +262,21 @@ Estimated Cost to Develop (organic) $1,041,486
 Estimated Schedule Effort (organic) 13.967619 months
 Estimated People Required (organic) 6.624407
 ```
+
+## Issues
+
+Naturally I ran into a number of new issues with this approach. I've listed some of those below to give a flavour for the types of problems with this architecture:
+
+1. Github actions...
+    1. Random timeouts logging in to ghcr.io, random timeouts pushing images. Generally just spontaneous errors of all sorts. This really drove home how fun it is managing the development toolchain for a microservice architecture
+2. Haskell compiler images
+    1. Oh boy. Haskell won the award for my least favourite development environment solely off the back of the absurd *3.5GB* SDK image! That was sufficiently large that it was impossible to build the haskell based services in CI without fine tuning the image down to < 3.4GB (github actions limits)
+3. Intermittent AKS networking errors
+    1. Whilst it achieved ~4 9s availability across all microservices, there _were_ spontaneous 504s between microservices in the AKS implementation.
+    2. On the plus side, because we're using linkerd as a service mesh to give us secure microservice TCP connections we can also just leverage it's retry behavior and forget about the problem! Exactly like a modern architecture!
+4. DNS caching (or not)
+    1. Only node.js of all the languages used had issues where it would hammer the DNS server on literally every HTTP request, eventually DNS told it to piss off and the next request broke #justnodethings
+5. Logging at scale
+    1. I initially set up Loki as the logging backend but found that the C# libraries for Loki would occasionally send requests out of order and that in the end Loki would just give up and stop accepting logs - fortunately fluentd is a much more cloud native way to do logging so it was obviously the best decision all along
+6. Orchestrating changes across services
+    1. Strangely, having ~50 repositories to manage was marginally harder than having 1. Making a change to (for example) add an `interruptsEnabled` flag to the CPU needed to be orchestrated across all microservices. Fortunately I'm quite good at writing disgusting bash scripts.
