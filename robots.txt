@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: https://blog.davetcode.co.uk/sitemap.xml
