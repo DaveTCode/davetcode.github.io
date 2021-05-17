@@ -1,0 +1,98 @@
+baseurl = "https://blog.davetcode.co.uk/"
+title = "David Tyler's Blog"
+
+theme = "fuji"
+hasCJKLanguage = true
+enableEmoji = true
+enableRobotsTXT = true
+disableKinds = ["taxonomy"]
+ignoreErrors = ["error-disable-taxonomy"]
+
+## Change this two to switch between different language
+languageCode = "en-GB"
+defaultContentLanguage = "en"  # For HTML page, now support: en, zh-hans, zh-hant, ja, nl, pl
+
+summaryLength = 100 # Custom summary length, add <!--more--> in post file to custom split point
+paginate = 10
+
+[outputFormats]
+  [outputFormats.SearchIndex]
+    isPlainText = true
+    notAlternative = true
+    mediaType = "application/json"
+    path = "/search/"
+
+[outputs]
+  home = ["HTML", "RSS", "SearchIndex"]
+
+[permalinks]
+  post = "/:section/:filename/" # Custom post links, e.g. "/:year/:month/:title/"
+
+[params]
+  author = "David Tyler"
+  subTitle = "Tecnical writing mostly focused on emulating old systems."
+  sourceURL = "https://github.com/davetcode"
+  showWordCounter = true
+  showReadTime = true
+  showLicenseInFooter = false
+  showLicense = true
+  showToc = true
+  copyrightStartYear = "2021"
+
+  # Open Graph & Twitter Card variables
+  # You can also set description and images in post front matter individually
+  description = "A coding blog specifically covering topics relating to emulation."
+  og = "/img/og.png" # This will use the image called og.png in static/img folder
+
+  # Posts shown in homepage
+  mainSections = ["post"]
+
+  # License
+  license = "CC BY-NC-SA 4.0"
+  licenseLink = "http://creativecommons.org/licenses/by-nc-sa/4.0/"
+
+  # custom lazyload placeholder
+  # 16:9
+  lazyPlaceholder = "/assets/lazyload/dsrca_loading_480x270.svg"
+  # 32:9
+  lazyPlaceholderRow = "/assets/lazyload/dsrca_loading_960x270.svg"
+  # 8:9
+  lazyPlaceholderCol = "/assets/lazyload/dsrca_loading_480x540.svg"
+
+  # Let images display in full brightness under dark mode
+  # disableDarkImage = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    codeFences = true
+    style = "monokai"
+    tabWidth = 4
+
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 6
+
+[taxonomies]
+  tag = "tags"
+
+[menu]
+  [[menu.nav]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.nav]]
+    name = "About"
+    url = "/about"
+    weight = 2
+
+  [[menu.link]]
+    name = "GitHub"
+    url = "https://github.com/davetcode"
+    weight = 1
+  [[menu.link]]
+    name = "LinkedIn"
+    url = "https://www.linkedin.com/in/datyler/"
+    weight = 2
