@@ -17,28 +17,24 @@ images = [
 
 Emulation is a fascinating area of software engineering, being able to bring to life a 30+ year old arcade machine on a modern computer is an incredibly satisfying accomplishment. Unfortunately I've become increasingly disillusioned with the lack of ambition shown by those in the emulation community. Whilst the rest of world moves onto cloud first, massively distributed architectures, emulation is still stuck firmly in the 20th century writing single threaded _C++_ of all things.
 
-This project was born out of a desire to bring the best of modern design to the the best of ancient computing history.
+This project was born out of a desire to bring the best of modern design back to the the future of ancient computing history. 
 
 {{< img-lazy "21x9" "Space Invaders Arcade Cabinet" "../../21st-century-emulator/space-invaders-to-aks.png" >}}
 
 So what can the best of modern architecture bring to the emulation scene?
 
-- Hot swappable microcode allowing for in game debugging
+- Hot swappable code paths allowing for in game debugging
 - Different languages for different components
 - Secure by default (mTLS on all function calls)
 - Scalability
 - Fault tolerance
 - Cloud native design
 
-This culminated in the implementation of an [8080 microprocessor](https://en.wikipedia.org/wiki/Intel_8080) utilising a truly modern containerised microservices based architecture running on [kubernetes](https://kubernetes.io/) with swappable frontends for a [CP/M](https://en.wikipedia.org/wiki/CP/M) test harness and a full implementation of the original [Space Invaders arcade machine](https://en.wikipedia.org/wiki/Space_Invaders).
+This culminated in the implementation of an [8080 microprocessor](https://en.wikipedia.org/wiki/Intel_8080) utilising a modern, containerised, microservices based architecture running on [kubernetes](https://kubernetes.io/) with frontends for a [CP/M](https://en.wikipedia.org/wiki/CP/M) test harness and a full implementation of the original [Space Invaders arcade machine](https://en.wikipedia.org/wiki/Space_Invaders).
 
-The full project can be found as a github organisation [https://github.com/21st-century-emulation](https://github.com/21st-century-emulation) which contains ~60 individual repositories each implementing an individual microservice or providing the infrastructure.
+The full project can be found as a github organisation [https://github.com/21st-century-emulation](https://github.com/21st-century-emulation) which contains ~60 individual repositories each implementing an individual microservice or providing the infrastructure. This article goes into details on the technical architecture and issues I ran into with the project.
 
-A screenshot of the emulator in action can be seen here:
-
-{{< img-lazy "21x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-ui-aks.png" >}}
-
-Key starting points are:
+Key starting points to learn more are:
 
 1. A react based 8080 disassembler running on github pages - [https://github.com/21st-century-emulation/disassembler-8080](https://github.com/21st-century-emulation/disassembler-8080)
 2. The CP/M test harness used to validate the processor - [https://github.com/21st-century-emulation/cpm-test-harness](https://github.com/21st-century-emulation/cpm-test-harness)
@@ -48,13 +44,15 @@ Key starting points are:
 4. Kubernetes Configuration & Deploying - [https://github.com/21st-century-emulation/space-invaders-kubernetes-infrastructure](https://github.com/21st-century-emulation/space-invaders-kubernetes-infrastructure)
     1. Note that this presupposes that you have access to a kubernetes cluster which can handle ~200 new pods
 
+Finally, a screenshot of the emulator in action can be seen here:
+
+{{< img-lazy "21x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-ui-aks.png" >}}
+
 ## Architectural Overview
 
-The following image describes the full archictectural model as applied to a space invaders arcade machine
+The following image describes the full archictectural model as applied to a space invaders arcade machine, the key components are then drawn out in the following sections
 
 {{< img-lazy "16x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-architecture.svg" >}}
-
-The key components in this architecture are listed below
 
 ### Central Fetch Execute Loop
 
