@@ -284,3 +284,42 @@ Naturally I ran into a number of new issues with this approach. I've listed some
     1. I initially set up Loki as the logging backend but found that the C# libraries for Loki would occasionally send requests out of order and that in the end Loki would just give up and stop accepting logs - fortunately fluentd is a much more cloud native way to do logging so it was obviously the best decision all along
 6. Orchestrating changes across services
     1. Strangely, having ~50 repositories to manage was marginally harder than having 1. Making a change to (for example) add an `interruptsEnabled` flag to the CPU needed to be orchestrated across all microservices. Fortunately I'm quite good at writing disgusting bash scripts.
+
+## Is this actually possible?
+
+Alright, if you've got this far I'm sure you've realised that the whole project is something of a joke. That said it *is* also an interesting intellectual exercise to consider whether it's remotely possible to achieve >=2MHz with the architecture delivered.
+
+The starting point is that to achieve 2MHz we must deliver 1 instruction every 2μs
+
+```
+2MHz = 2,000,000 cycles per second
+Each instruction is at 4-17 cycles so we need to manage at worst 2,000,000 / 4 = 500,000 instructions per second. That gives 1/500,000 seconds = ~2μs per operation.
+```
+
+Assuming for sake of argument that we do the following optimisations:
+- Make interrupt checks off the hot path
+    - Reduces total HTTP requests per operation by 2
+- Cache all ROM in the fetch execute service and assume applications only execute from ROM (true for space invaders)
+    - Reduces total HTTP requests per operation by another 2
+- Change from JSON w/ UTF8 encoding to sending a byte packed array of values to represent the CPU
+    - Drives the request size down to <256 bytes and eliminates all serialization/deserialization costs (just have a struct pointer pointing at the array)
+
+Then we can get to a good starting point of exactly 1 round trip to/from each opcode. So what's the minimal cost for a roundtrip across network?
+
+This answer ([https://quant.stackexchange.com/questions/17620/what-is-the-current-lowest-possible-latency-for-tcp-communication](https://quant.stackexchange.com/questions/17620/what-is-the-current-lowest-possible-latency-for-tcp-communication)) from 2015 benchmarks loopback device latency at ~2μs if the request size can be kept down to <=256 bytes. 
+
+Assuming that person knows what they're talking about then the _immediate_ answer is a straight no. You'll never achieve the required latency across a network (particularly a dodgy cloud data center network).
+
+But let's not give up quite yet. We're not _miles_ away from the performance required so we can look for 2 times speed ups.
+
+Some thoughts on methods to get that last 2 times speed up:
+
+1. Fire and forget memory writes
+    1. A memory write is almost never read immediately, so just chuck it at the bus and don't bother blocking until it's written. Maybe you'll lose some writes? That's fine. Very mongo.
+2. We can execute multiple operations in parallel and only validate the correctness of their results later. 
+    1. This would clearly speed up operations like memcpy's which are done with simple `MVI (HL) d8` -> `DCX HL` -> `JNZ` type algorithms where each grouping can be executed in parallel
+3. If each opcode was capable of knowing the next instruction then we could avoid the second half of each round trip and not travel back to the fetch execute loop until the stream of instructions has run out
+    1. This is basically a guaranteed 2 times speed up
+
+
+Conclusion? I think it _might_ be possible under some ideal situations assuming ~no network latency but I've no intention of spending any more time thinking about it!
