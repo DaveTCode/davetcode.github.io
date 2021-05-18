@@ -1,7 +1,8 @@
 +++
-title = "Nes Emulator in Rust"
+title = "NES Emulator in Rust"
 date = 2020-12-10T10:09:51Z
-description = "Nes Emulator in Rust with no unsafe code and only compile time guarantees."
+description = "NES Emulator in Rust with no unsafe code and only compile time guarantees."
+summary = "Writing a NES Emulator in Rust with no unsafe code and only compile time guarantees. Does rust provide good value when writing an emulator?"
 draft = false
 toc = true
 tags = ["emulation", "rust"]

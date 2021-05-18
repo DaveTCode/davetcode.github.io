@@ -5,6 +5,7 @@ description = "Implementing an 8080 emulator in a microservice architecture on t
 draft = false
 toc = false
 tags = ["emulation", "8080", "spaceinvaders", "satire"]
+summary = "What happens when you apply 21st century application design to the emulation of old arcade machines? How much can we improve the emulation community?"
 images = [
   "https://source.unsplash.com/collection/983219/1600x900"
 ] # overrides site-wide open graph image
@@ -14,15 +15,20 @@ images = [
   license = "cc-by-nc-sa-4.0"
 +++
 
-I'm a huge fan of emulation but have become increasingly disillusioned with the lack of ambition shown by those in the emulation community. Whilst the rest of world moves onto massively distributed architectures, emulation is still stuck firmly in the 20th century writing single threaded _C++_ of all things.
+Emulation is a fascinating area of software engineering, being able to bring to life a 30+ year old arcade machine on a modern computer is an incredibly satisfying accomplishment. Unfortunately I've become increasingly disillusioned with the lack of ambition shown by those in the emulation community. Whilst the rest of world moves onto cloud first, massively distributed architectures, emulation is still stuck firmly in the 20th century writing single threaded _C++_ of all things.
 
-As a modern forward thinking engineer I took it upon myself to start the trend of bringing emulation into the 21st century where we can leverage features like these:
+This project was born out of a desire to bring the best of modern design to the the best of ancient computing history.
 
-- Hot swappable microcode
-- Ability to write different parts in different languages as appropriate
+{{< img-lazy "21x9" "Space Invaders Arcade Cabinet" "../../21st-century-emulator/space-invaders-to-aks.png" >}}
+
+So what can the best of modern architecture bring to the emulation scene?
+
+- Hot swappable microcode allowing for in game debugging
+- Different languages for different components
 - Secure by default (mTLS on all function calls)
 - Scalability
 - Fault tolerance
+- Cloud native design
 
 This culminated in the implementation of an [8080 microprocessor](https://en.wikipedia.org/wiki/Intel_8080) utilising a truly modern containerised microservices based architecture running on [kubernetes](https://kubernetes.io/) with swappable frontends for a [CP/M](https://en.wikipedia.org/wiki/CP/M) test harness and a full implementation of the original [Space Invaders arcade machine](https://en.wikipedia.org/wiki/Space_Invaders).
 
@@ -30,7 +36,7 @@ The full project can be found as a github organisation [https://github.com/21st-
 
 A screenshot of the emulator in action can be seen here:
 
-{{< img-lazy "16x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-ui-aks.png" >}}
+{{< img-lazy "21x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-ui-aks.png" >}}
 
 Key starting points are:
 
