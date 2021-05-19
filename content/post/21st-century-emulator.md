@@ -201,7 +201,7 @@ The following table outlines the language choice for each opcode, as you can see
 | [CMC](https://github.com/21st-century-emulation/cmc)   | Haskell    | Complement Carry Flag                                     | :white_check_mark: |
 | [STC](https://github.com/21st-century-emulation/stc)   | Haskell    | Set Carry Flag = 1                                        | :white_check_mark: |
 | [HLT](https://github.com/21st-century-emulation/hlt)   |            | Halt CPU and wait for interrupt                           |                    |
-| [NOP](https://github.com/21st-century-emulation/nop)   | C          | No operation                                              | :white_check_mark: |
+| [NOOP](https://github.com/21st-century-emulation/noop) | C          | No operation                                              | :white_check_mark: |
 | [DI](https://github.com/21st-century-emulation/di)     | Dart       | Disable Interrupts                                        | :white_check_mark: |
 | [EI](https://github.com/21st-century-emulation/ei)     | Dart       | Enable Interrupts                                         | :white_check_mark: |
 | [RST](https://github.com/21st-century-emulation/rst)   | Deno       | Call interrupt vector                                     | :white_check_mark: |
