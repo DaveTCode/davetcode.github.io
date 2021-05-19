@@ -196,11 +196,11 @@ The following table outlines the language choice for each opcode, as you can see
 | [RRC](https://github.com/21st-century-emulation/rrc)   | Go         | Rotate right carry                                        | :white_check_mark: |
 | [RAL](https://github.com/21st-century-emulation/ral)   | Go         | Rotate left accumulator                                   | :white_check_mark: |
 | [RAR](https://github.com/21st-century-emulation/rar)   | Go         | Rotate right accumulator                                  | :white_check_mark: |
-| [IN](https://github.com/21st-century-emulation/in)     |            | Data from Port placed in A register                       |                    |
-| [OUT](https://github.com/21st-century-emulation/out)   |            | Data from A register placed in Port                       |                    |
+| IN                                                     |            | Data from Port placed in A register                       |                    |
+| OUT                                                    |            | Data from A register placed in Port                       |                    |
 | [CMC](https://github.com/21st-century-emulation/cmc)   | Haskell    | Complement Carry Flag                                     | :white_check_mark: |
 | [STC](https://github.com/21st-century-emulation/stc)   | Haskell    | Set Carry Flag = 1                                        | :white_check_mark: |
-| [HLT](https://github.com/21st-century-emulation/hlt)   |            | Halt CPU and wait for interrupt                           |                    |
+| HLT                                                    |            | Halt CPU and wait for interrupt                           |                    |
 | [NOOP](https://github.com/21st-century-emulation/noop) | C          | No operation                                              | :white_check_mark: |
 | [DI](https://github.com/21st-century-emulation/di)     | Dart       | Disable Interrupts                                        | :white_check_mark: |
 | [EI](https://github.com/21st-century-emulation/ei)     | Dart       | Enable Interrupts                                         | :white_check_mark: |
