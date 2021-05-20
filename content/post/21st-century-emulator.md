@@ -150,61 +150,64 @@ One of the many beautiful things about a microservice architecture is that, beca
 
 The following table outlines the language choice for each opcode, as you can see, this allows to gain the benefits of Rusts safe integer arithmetic operations whilst falling back to the security of Deno for important operations like CALL & RET.
 
-| Opcode                                                 | Language     | Description                                               | Completed          | Runtime image size | Performance (avg latency) |
-| ------------------------------------------------------ | ------------ | --------------------------------------------------------- | ------------------ | ------------------ | ------------------------- |
-| [MOV](https://github.com/21st-century-emulation/mov)   | Swift        | Moves data from one register to another                   | :white_check_mark: | 257MB              |  4.68ms                   |
-| [MVI](https://github.com/21st-century-emulation/mvi)   | Javascript   | Puts 8 bits into register, or memory                      | :white_check_mark: | 118MB              |  3.43ms                   |
-| [LDA](https://github.com/21st-century-emulation/lda)   | VB           | Puts 8 bits at location Addr into A Register              | :white_check_mark: | 206MB              |  4.56ms                   |
-| [STA](https://github.com/21st-century-emulation/sta)   | C#           | Stores 8 bits at location Addr                            | :white_check_mark: | 206MB              |  4.61ms                   |
-| [LDAX](https://github.com/21st-century-emulation/ldax) | Typescript   | Loads A register with 8 bits from location in BC or DE    | :white_check_mark: | 365MB              |  6.22ms                   |
-| [STAX](https://github.com/21st-century-emulation/stax) | Python       | Stores A register at location in BC or DE                 | :white_check_mark: |  59MB              |  5.24ms                   |
-| [LHLD](https://github.com/21st-century-emulation/lhld) | Ruby         | Loads HL register with 16 bits found at Addr and Addr+1   | :white_check_mark: | 898MB!             | 13.63ms                   |
-| [SHLD](https://github.com/21st-century-emulation/shld) | Perl         | Stores HL register contents at Addr and Addr+1            | :white_check_mark: | 930MB!             | 12.68ms                   |
-| [LXI](https://github.com/21st-century-emulation/lxi)   | Java + Spring| Loads 16 bits into B,D,H, or SP                           | :white_check_mark: | 415MB              |  6.84ms                   |
-| [PUSH](https://github.com/21st-century-emulation/push) | Lua          | Puts 16 bits of BP onto stack SP=SP-2                     | :white_check_mark: | 385MB              |  4.42ms                   |
-| [POP](https://github.com/21st-century-emulation/pop)   | Scala + Play | Takes top of stack, puts it in RP SP=SP+2                 | :white_check_mark: | 761MB              | 13.99ms                   |
-| [XTHL](https://github.com/21st-century-emulation/xthl) | D            | Exchanges HL with top of stack                            | :white_check_mark: | 156MB              | 26.54ms                   |
-| [SPHL](https://github.com/21st-century-emulation/sphl) | F#           | Puts contents of HL into SP (stack pointer)               | :white_check_mark: | 114MB              |  3.25ms                   |
-| [PCHL](https://github.com/21st-century-emulation/pchl) | Kotlin       | Puts contents of HL into PC (program counter) [=JMP (HL)] | :white_check_mark: | 445MB              |  7.61ms                   |
-| [XCHG](https://github.com/21st-century-emulation/xchg) | C++          | Exchanges HL and DE                                       | :white_check_mark: | 514MB              |  2.16ms                   |
-| [ADD](https://github.com/21st-century-emulation/add)   | Rust         | Add accumulator and register/(HL)                         | :white_check_mark: | 123MB              |  1.95ms                   |
-| [ADC](https://github.com/21st-century-emulation/adc)   | Rust         | Add accumulator and register/(HL) (with carry)            | :white_check_mark: | 123MB              |  2.00ms                   |
-| [ADI](https://github.com/21st-century-emulation/adi)   | Rust         | Add accumulator and immediate                             | :white_check_mark: | 123MB              |  2.16ms                   |
-| [ACI](https://github.com/21st-century-emulation/aci)   | Rust         | Add accumulator and immediate (with carry)                | :white_check_mark: | 123MB              |  2.22ms                   |
-| [SUB](https://github.com/21st-century-emulation/sub)   | Rust         | Sub accumulator and register/(HL)                         | :white_check_mark: | 123MB              |  1.95ms                   |
-| [SBB](https://github.com/21st-century-emulation/sbb)   | Rust         | Sub accumulator and register/(HL) (with borrow)           | :white_check_mark: | 123MB              |
-| [SUI](https://github.com/21st-century-emulation/sui)   | Rust         | Sub accumulator and immediate                             | :white_check_mark: | 123MB              |
-| [SBI](https://github.com/21st-century-emulation/sbi)   | Rust         | Sub accumulator and immediate (with carry)                | :white_check_mark: | 123MB              |
-| [ANA](https://github.com/21st-century-emulation/ana)   | Rust         | And accumulator and register/(HL)                         | :white_check_mark: | 123MB              |
-| [ANI](https://github.com/21st-century-emulation/ani)   | Rust         | And accumulator and immediate                             | :white_check_mark: | 123MB              |
-| [XRA](https://github.com/21st-century-emulation/xra)   | Rust         | Xor accumulator and register/(HL)                         | :white_check_mark: | 123MB              |
-| [XRI](https://github.com/21st-century-emulation/xri)   | Rust         | Xor accumulator and immediate                             | :white_check_mark: | 123MB              |
-| [ORA](https://github.com/21st-century-emulation/ora)   | ~~Rust~~ Nim | Or accumulator and register/(HL)                          | :white_check_mark: |  74MB              | 11.36ms                   |
-| [ORI](https://github.com/21st-century-emulation/ori)   | Rust         | Or accumulator and immediate                              | :white_check_mark: | 123MB              |
-| [DAA](https://github.com/21st-century-emulation/daa)   | Rust         | Decimal adjust accumulator                                | :white_check_mark: | 123MB              |
-| [CMP](https://github.com/21st-century-emulation/cmp)   | Rust         | Compare accumulator and register/(HL)                     | :white_check_mark: | 123MB              |
-| [CPI](https://github.com/21st-century-emulation/cpi)   | Rust         | Compare accumulator and immediate                         | :white_check_mark: | 123MB              |
-| [DAD](https://github.com/21st-century-emulation/dad)   | PHP          | Adds contents of register RP to contents of HL register   | :white_check_mark: | 430MB              | 17.2 ms                   |
-| [INR](https://github.com/21st-century-emulation/inr)   | Crystal      | Increments register                                       | :white_check_mark: |  23MB              |  1.98ms                   |
-| [DCR](https://github.com/21st-century-emulation/dcr)   | Crystal      | Decrements register                                       | :white_check_mark: |  23MB              |
-| [INX](https://github.com/21st-century-emulation/inx)   | Crystal      | Increments register pair                                  | :white_check_mark: |  23MB              |
-| [DCX](https://github.com/21st-century-emulation/dcx)   | Crystal      | Decrements register pair                                  | :white_check_mark: |  23MB              |
-| [JMP](https://github.com/21st-century-emulation/jmp)   | Powershell   | Unconditional Jump to location Addr                       | :white_check_mark: | 294MB              |  6.51ms                   |
-| [CALL](https://github.com/21st-century-emulation/call) | Deno         | Unconditional Subroutine call to location Addr            | :white_check_mark: | 154MB              |  6.04ms                   |
-| [RET](https://github.com/21st-century-emulation/ret)   | Deno         | Unconditional return from subroutine                      | :white_check_mark: | 154MB              |
-| [RLC](https://github.com/21st-century-emulation/rlc)   | Go           | Rotate left carry                                         | :white_check_mark: |   6MB              |  2.28ms                   |
-| [RRC](https://github.com/21st-century-emulation/rrc)   | Go           | Rotate right carry                                        | :white_check_mark: |   6MB              |
-| [RAL](https://github.com/21st-century-emulation/ral)   | Go           | Rotate left accumulator                                   | :white_check_mark: |   6MB              |
-| [RAR](https://github.com/21st-century-emulation/rar)   | Go           | Rotate right accumulator                                  | :white_check_mark: |   6MB              |
-| IN                                                     |              | Data from Port placed in A register                       |                    |                    |                           |
-| OUT                                                    |              | Data from A register placed in Port                       |                    |                    |                           |
-| [CMC](https://github.com/21st-century-emulation/cmc)   | Haskell      | Complement Carry Flag                                     | :white_check_mark: |  90MB              |  2.50ms                   |
-| [STC](https://github.com/21st-century-emulation/stc)   | Haskell      | Set Carry Flag = 1                                        | :white_check_mark: |  90MB              |  2.52ms                   |
-| HLT                                                    |              | Halt CPU and wait for interrupt                           |                    |                    |
-| [NOOP](https://github.com/21st-century-emulation/noop) | C            | No operation                                              | :white_check_mark: |  70MB              |  1.89ms                   |
-| [DI](https://github.com/21st-century-emulation/di)     | Dart         | Disable Interrupts                                        | :white_check_mark: |  79MB              |  2.37ms                   |
-| [EI](https://github.com/21st-century-emulation/ei)     | Dart         | Enable Interrupts                                         | :white_check_mark: |  79MB              |  2.21ms                   |
-| [RST](https://github.com/21st-century-emulation/rst)   | Deno         | Call interrupt vector                                     | :white_check_mark: | 154MB              | 7.34ms                   |
+| Opcode                                                 | Language     | Description                                               | Runtime image size | Performance (avg latency) |
+| ------------------------------------------------------ | ------------ | --------------------------------------------------------- | ------------------ | ------------------------- |
+| [MOV](https://github.com/21st-century-emulation/mov)   | Swift        | Moves data from one register to another                   | 257MB              |  4.68ms                   |
+| [MVI](https://github.com/21st-century-emulation/mvi)   | Javascript   | Puts 8 bits into register, or memory                      | 118MB              |  3.43ms                   |
+| [LDA](https://github.com/21st-century-emulation/lda)   | VB           | Puts 8 bits at location Addr into A Register              | 206MB              |  4.56ms                   |
+| [STA](https://github.com/21st-century-emulation/sta)   | C#           | Stores 8 bits at location Addr                            | 206MB              |  4.61ms                   |
+| [LDAX](https://github.com/21st-century-emulation/ldax) | Typescript   | Loads A register with 8 bits from location in BC or DE    | 365MB              |  6.22ms                   |
+| [STAX](https://github.com/21st-century-emulation/stax) | Python       | Stores A register at location in BC or DE                 |  59MB              |  5.24ms                   |
+| [LHLD](https://github.com/21st-century-emulation/lhld) | Ruby         | Loads HL register with 16 bits found at Addr and Addr+1   | 898MB!             | 13.63ms                   |
+| [SHLD](https://github.com/21st-century-emulation/shld) | Perl         | Stores HL register contents at Addr and Addr+1            | 930MB!             | 12.68ms                   |
+| [LXI](https://github.com/21st-century-emulation/lxi)   | Java + Spring| Loads 16 bits into B,D,H, or SP                           | 415MB              |  6.84ms                   |
+| [PUSH](https://github.com/21st-century-emulation/push) | Lua          | Puts 16 bits of BP onto stack SP=SP-2                     | 385MB              |  4.42ms                   |
+| [POP](https://github.com/21st-century-emulation/pop)   | Scala + Play | Takes top of stack, puts it in RP SP=SP+2                 | 761MB              | 13.99ms                   |
+| [XTHL](https://github.com/21st-century-emulation/xthl) | D            | Exchanges HL with top of stack                            | 156MB              | 26.54ms                   |
+| [SPHL](https://github.com/21st-century-emulation/sphl) | F#           | Puts contents of HL into SP (stack pointer)               | 114MB              |  3.25ms                   |
+| [PCHL](https://github.com/21st-century-emulation/pchl) | Kotlin       | Puts contents of HL into PC (program counter) [=JMP (HL)] | 445MB              |  7.61ms                   |
+| [XCHG](https://github.com/21st-century-emulation/xchg) | C++          | Exchanges HL and DE                                       | 514MB              |  2.16ms                   |
+| [ADD](https://github.com/21st-century-emulation/add)   | Rust         | Add accumulator and register/(HL)                         | 123MB              |  1.95ms                   |
+| [ADC](https://github.com/21st-century-emulation/adc)   | Rust         | Add accumulator and register/(HL) (with carry)            | 123MB              |  2.00ms                   |
+| [ADI](https://github.com/21st-century-emulation/adi)   | Rust         | Add accumulator and immediate                             | 123MB              |  2.16ms                   |
+| [ACI](https://github.com/21st-century-emulation/aci)   | Rust         | Add accumulator and immediate (with carry)                | 123MB              |  2.22ms                   |
+| [SUB](https://github.com/21st-century-emulation/sub)   | Rust         | Sub accumulator and register/(HL)                         | 123MB              |  1.95ms                   |
+| [SBB](https://github.com/21st-century-emulation/sbb)   | Rust         | Sub accumulator and register/(HL) (with borrow)           | 123MB              |  1.70ms                   |
+| [SUI](https://github.com/21st-century-emulation/sui)   | Rust         | Sub accumulator and immediate                             | 123MB              |  2.15ms                   |
+| [SBI](https://github.com/21st-century-emulation/sbi)   | Rust         | Sub accumulator and immediate (with carry)                | 123MB              |  1.91ms                   |
+| [ANA](https://github.com/21st-century-emulation/ana)   | Rust         | And accumulator and register/(HL)                         | 123MB              |  2.68ms                   |
+| [ANI](https://github.com/21st-century-emulation/ani)   | Rust         | And accumulator and immediate                             | 123MB              |  1.93ms                   |
+| [XRA](https://github.com/21st-century-emulation/xra)   | Rust         | Xor accumulator and register/(HL)                         | 123MB              |  1.70ms                   |
+| [XRI](https://github.com/21st-century-emulation/xri)   | Rust         | Xor accumulator and immediate                             | 123MB              |  1.57ms                   |
+| [ORA](https://github.com/21st-century-emulation/ora)   | ~~Rust~~ Nim | Or accumulator and register/(HL)                          |  74MB              | 11.36ms                   |
+| [ORI](https://github.com/21st-century-emulation/ori)   | Rust         | Or accumulator and immediate                              | 123MB              |  1.40ms                   |
+| [DAA](https://github.com/21st-century-emulation/daa)   | Rust         | Decimal adjust accumulator                                | 123MB              |  2.26ms                   |
+| [CMP](https://github.com/21st-century-emulation/cmp)   | Rust         | Compare accumulator and register/(HL)                     | 123MB              |  1.70ms                   |
+| [CPI](https://github.com/21st-century-emulation/cpi)   | Rust         | Compare accumulator and immediate                         | 123MB              |  1.90ms                   |
+| [DAD](https://github.com/21st-century-emulation/dad)   | PHP          | Adds contents of register RP to contents of HL register   | 430MB              | 17.2 ms                   |
+| [INR](https://github.com/21st-century-emulation/inr)   | Crystal      | Increments register                                       |  23MB              |  1.98ms                   |
+| [DCR](https://github.com/21st-century-emulation/dcr)   | Crystal      | Decrements register                                       |  23MB              |  2.06ms                   |
+| [INX](https://github.com/21st-century-emulation/inx)   | Crystal      | Increments register pair                                  |  23MB              |  2.01ms                   |
+| [DCX](https://github.com/21st-century-emulation/dcx)   | Crystal      | Decrements register pair                                  |  23MB              |  1.99ms                   |
+| [JMP](https://github.com/21st-century-emulation/jmp)   | Powershell   | Unconditional Jump to location Addr                       | 294MB              |  6.51ms                   |
+| [CALL](https://github.com/21st-century-emulation/call) | Deno         | Unconditional Subroutine call to location Addr            | 154MB              |  6.04ms                   |
+| [RET](https://github.com/21st-century-emulation/ret)   | Deno         | Unconditional return from subroutine                      | 154MB              |  6.43ms                   |
+| [RLC](https://github.com/21st-century-emulation/rlc)   | Go           | Rotate left carry                                         |   6MB              |  2.28ms                   |
+| [RRC](https://github.com/21st-century-emulation/rrc)   | Go           | Rotate right carry                                        |   6MB              |  2.19ms                   |
+| [RAL](https://github.com/21st-century-emulation/ral)   | Go           | Rotate left accumulator                                   |   6MB              |  2.39ms                   |
+| [RAR](https://github.com/21st-century-emulation/rar)   | Go           | Rotate right accumulator                                  |   6MB              |  2.29ms                   |
+| IN                                                     |              | Data from Port placed in A register                       |                    |                           |
+| OUT                                                    |              | Data from A register placed in Port                       |                    |                           |
+| [CMC](https://github.com/21st-century-emulation/cmc)   | Haskell      | Complement Carry Flag                                     |  90MB              |  2.50ms                   |
+| [CMA](https://github.com/21st-century-emulation/cma)   | Haskell      | Complement A register                                     |  90MB              |  2.54ms                   |
+| [STC](https://github.com/21st-century-emulation/stc)   | Haskell      | Set Carry Flag = 1                                        |  90MB              |  2.52ms                   |
+| HLT                                                    |              | Halt CPU and wait for interrupt                           |                    |                           |
+| [NOOP](https://github.com/21st-century-emulation/noop) | C            | No operation                                              |  70MB              |  1.89ms                   |
+| [DI](https://github.com/21st-century-emulation/di)     | Dart         | Disable Interrupts                                        |  79MB              |  2.37ms                   |
+| [EI](https://github.com/21st-century-emulation/ei)     | Dart         | Enable Interrupts                                         |  79MB              |  2.21ms                   |
+| [RST](https://github.com/21st-century-emulation/rst)   | Deno         | Call interrupt vector                                     | 154MB              |  7.34ms                   |
+
+Nim was a bit late to the party so only got one opcode, and it still managed to be slow anyway.
 
 ### Code details
 
