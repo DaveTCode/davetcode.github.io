@@ -30,7 +30,7 @@ paginate = 10
 
 [params]
   author = "David Tyler"
-  subTitle = "Tecnical writing mostly focused on emulating old systems."
+  subTitle = "Technical writing mostly focused on emulating old systems."
   sourceURL = "https://github.com/davetcode"
   showWordCounter = true
   showReadTime = true
