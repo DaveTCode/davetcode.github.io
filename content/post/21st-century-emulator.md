@@ -52,7 +52,7 @@ Finally, a screenshot of the emulator in action can be seen here:
 
 The following image describes the full archictectural model as applied to a space invaders arcade machine, the key components are then drawn out in the following sections
 
-{{< img-lazy "16x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-architecture.svg" >}}
+{{< img-lazy "21x9" "Space Invaders UI" "../../21st-century-emulator/space-invaders-architecture.png" >}}
 
 ### Central Fetch Execute Loop
 
@@ -126,7 +126,7 @@ Given that repository and a suitably large kubernetes cluster (note: we strongly
 
 The kubernetes architecture is outlined in [https://github.com/21st-century-emulation/space-invaders-kubernetes-infrastructure/blob/main/README.md](https://github.com/21st-century-emulation/space-invaders-kubernetes-infrastructure/blob/main/README.md) but a diagram is provided here for brevity:
 
-{{< img-lazy "16x9" "Space Invaders Kubernetes Architecture" "../../21st-century-emulator/space-invaders-kubernetes-architecture.svg" >}}
+{{< img-lazy "18x9" "Space Invaders Kubernetes Architecture" "../../21st-century-emulator/space-invaders-kubernetes-architecture.png" >}}
 
 ## Performance
 
@@ -289,9 +289,9 @@ Naturally I ran into a number of new issues with this approach. I've listed some
 4. DNS caching (or not)
     1. Only node.js of all the languages used had issues where it would hammer the DNS server on literally every HTTP request, eventually DNS told it to piss off and the next request broke #justnodethings
 5. Logging at scale
-    1. I initially set up Loki as the logging backend but found that the C# libraries for Loki would occasionally send requests out of order and that in the end Loki would just give up and stop accepting logs - fortunately fluentd is a much more cloud native way to do logging so it was obviously the best decision all along
+    1. I initially set up Loki as the logging backend because it's new and therefore good, but found that the C# libraries for Loki would occasionally send requests out of order and that in the end Loki would just give up and stop accepting logs - fortunately fluentd is still very much in the spirit of this project and really pins the project down to kubernetes so it was obviously the best decision all along
 6. Orchestrating changes across services
-    1. Strangely, having ~50 repositories to manage was marginally harder than having 1. Making a change to (for example) add an `interruptsEnabled` flag to the CPU needed to be orchestrated across all microservices. Fortunately I'm quite good at writing disgusting bash scripts.
+    1. Strangely, having ~50 repositories to manage was marginally harder than having 1. Making a change to (for example) add an `interruptsEnabled` flag to the CPU needed to be orchestrated across all microservices. Fortunately I'm quite good at writing disgusting bash scripts like any self respecting devops engineer.
 
 ## Is this actually possible?
 
@@ -304,11 +304,12 @@ The starting point is that to achieve 2MHz we must deliver 1 instruction every 2
 Each instruction is at 4-17 cycles so we need to manage at worst 2,000,000 / 4 = 500,000 instructions per second. That gives 1/500,000 seconds = ~2μs per operation.
 ```
 
+As it was written there are 3 HTTP calls per instruction, one to fetch the operation, one to execute it and one to check for interrupts.
+
 Assuming for sake of argument that we do the following optimisations:
 - Make interrupt checks off the hot path
-    - Reduces total HTTP requests per operation by 2
 - Cache all ROM in the fetch execute service and assume applications only execute from ROM (true for space invaders)
-    - Reduces total HTTP requests per operation by another 2
+    - This takes us to ~1 instruction per operation
 - Change from JSON w/ UTF8 encoding to sending a byte packed array of values to represent the CPU
     - Drives the request size down to <256 bytes and eliminates all serialization/deserialization costs (just have a struct pointer pointing at the array)
 
@@ -323,9 +324,9 @@ But let's not give up quite yet. We're not _miles_ away from the performance req
 Some thoughts on methods to get that last 2 times speed up:
 
 1. Fire and forget memory writes
-    1. A memory write is almost never read immediately, so just chuck it at the bus and don't bother blocking until it's written. Maybe you'll lose some writes? That's fine. Very mongo.
+    1. A memory write is almost never read immediately, so just chuck it at the bus and don't bother blocking until it's written. Maybe you'll lose some writes? That's fine. Very mongo. fsync is for boring c coders and modern developers aren't supposed to need to know about nasty complex things like the CAP theorem anyway. Presumably kubernetes will solve that for us. 
 2. We can execute multiple operations in parallel and only validate the correctness of their results later. 
-    1. This would clearly speed up operations like memcpy's which are done with simple `MVI (HL) d8` -> `DCX HL` -> `JNZ` type algorithms where each grouping can be executed in parallel
+    1. This would clearly speed up operations like memset's which are done with simple `MVI (HL) d8` -> `DCX HL` -> `JNZ` type algorithms where each grouping can be executed in parallel
 3. If each opcode was capable of knowing the next instruction then we could avoid the second half of each round trip and not travel back to the fetch execute loop until the stream of instructions has run out
     1. This is basically a guaranteed 2 times speed up
 
