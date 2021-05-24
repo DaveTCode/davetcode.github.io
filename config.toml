@@ -37,7 +37,7 @@ paginate = 10
   showLicenseInFooter = false
   showLicense = true
   showToc = true
-  copyrightStartYear = "2021"
+  copyrightStartYear = "2020"
   description = "A coding blog specifically covering topics relating to emulation."
   og = "/space-invaders/images/space_invaders.png"
 
