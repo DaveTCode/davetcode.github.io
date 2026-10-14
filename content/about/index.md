@@ -1,6 +1,6 @@
 +++
 title = "About"
-date = 2021-01-14T13:07:55Z
+date = 2026-10-14T10:00:00Z
 description = "About David Tyler's blog"
 draft = false
 [[copyright]]
@@ -9,8 +9,16 @@ draft = false
   license = "cc-by-nd-4.0"
 +++
 
-I'm a software engineering manager/architect who still gets to spend a decent chunk of his spare time working on
-real programming projects. This site is just an excuse for me to exercise my writing skills and to force me to "complete" each project.
+I'm a software engineer/site reliability engineer/platform engineer currently immersed into
+the HPC/AI space running large scale supercomputers but whose background is rooted in programming.
+
+This blog exists almost entirely for myself as a means by which I can exercise my technical writing
+muscles and share interesting or amusing projects I've worked on.
+
+I have a long held view that writing, even technical writing, is a conversation between the author
+and the reader and a lot of critical information is conveyed through the subtext of how one writes.
+A direct corollary of that is that any entries into this blog will always be entirely written by a 
+human with no LLM assistance. 
 
 - [Github](https://github.com/DaveTCode)
 - [LinkedIn](https://www.linkedin.com/in/datyler/)
