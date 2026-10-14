@@ -20,14 +20,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 +++
 title = "{{ replace .TranslationBaseName "-" " " | title }}"
 date = {{ .Date }}
-description = "This text was generated using the After Dark post archetype."
+description = ""
 draft = true
-toc = false
+showToc = true
 categories = ["emulation", "rust"]
 tags = ["emulation", "rust"]
-images = [
-  "https://source.unsplash.com/collection/983219/1600x900"
-] # overrides site-wide open graph image
 [[copyright]]
   owner = "{{ .Site.Params.author | default .Site.Title }}"
   date = "{{ now.Format "2006" }}"

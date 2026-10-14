@@ -1,8 +1,7 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/ubuntu/.devcontainer/base.Dockerfile
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
-# [Choice] Ubuntu version: bionic, focal
-ARG VARIANT="focal"
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+ARG HUGO_VERSION=0.168.0
 
-RUN wget https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.deb && \
-  dpkg -i hugo_0.83.1_Linux-64bit.deb
+RUN wget -q -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb && \
+  dpkg -i /tmp/hugo.deb && \
+  rm /tmp/hugo.deb

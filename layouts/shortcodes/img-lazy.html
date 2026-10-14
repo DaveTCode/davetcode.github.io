@@ -1,0 +1,5 @@
+{{- if ne (len .Params) 3 -}}
+  {{- errorf "img-lazy requires an aspect ratio, alt text, and image URL: %s" .Position -}}
+{{- else -}}
+<img src="{{ .Get 2 | safeURL }}" alt="{{ .Get 1 }}" loading="lazy" decoding="async">
+{{- end -}}
